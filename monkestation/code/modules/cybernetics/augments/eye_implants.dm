@@ -13,8 +13,7 @@
 	desc = "These cybernetic eyes will display a HUD over everything you see. Maybe."
 	slot = ORGAN_SLOT_HUD
 	actions_types = list(/datum/action/item_action/toggle_hud)
-	var/HUD_type = 0
-	var/HUD_trait = null
+	var/HUD_traits = list()
 	/// Whether the HUD implant is on or off
 	var/toggled_on = TRUE
 	//For toggling a trait related hud.
@@ -23,64 +22,50 @@
 /obj/item/organ/internal/cyberimp/eyes/hud/proc/toggle_hud(mob/living/carbon/eye_owner)
 
 	if(toggled_on)
-		if(HUD_type)
-			var/datum/atom_hud/hud = GLOB.huds[HUD_type]
-			hud.hide_from(eye_owner)
 		if(HUD_trait_toggle)
 			REMOVE_TRAIT(eye_owner, HUD_trait_toggle, ORGAN_TRAIT)
 		toggled_on = FALSE
+		eye_owner.add_traits(HUD_traits, ORGAN_TRAIT)
 		to_chat(eye_owner, "You blink twice, toggling your [name] off.")
-	else
-		if(HUD_type)
-			var/datum/atom_hud/hud = GLOB.huds[HUD_type]
-			hud.show_to(eye_owner)
+		return
+	toggled_on = TRUE
+	eye_owner.remove_traits(HUD_traits, ORGAN_TRAIT)
+	balloon_alert(eye_owner, "hud enabled")
 		if(HUD_trait_toggle)
 			ADD_TRAIT(eye_owner, HUD_trait_toggle, ORGAN_TRAIT)
-		toggled_on = TRUE
-		to_chat(eye_owner, "You blink twice, toggling your [name] on.")
 
 /obj/item/organ/internal/cyberimp/eyes/hud/Insert(mob/living/carbon/eye_owner, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	if(!.)
 		return
-	if(HUD_type)
-		var/datum/atom_hud/hud = GLOB.huds[HUD_type]
-		hud.show_to(eye_owner)
-	if(HUD_trait)
-		ADD_TRAIT(eye_owner, HUD_trait, ORGAN_TRAIT)
 	if(HUD_trait_toggle)
 		ADD_TRAIT(eye_owner, HUD_trait_toggle, ORGAN_TRAIT)
+	eye_owner.add_traits(HUD_traits, ORGAN_TRAIT)
 
 /obj/item/organ/internal/cyberimp/eyes/hud/Remove(mob/living/carbon/eye_owner, special = FALSE)
 	. = ..()
-	if(HUD_type)
-		var/datum/atom_hud/hud = GLOB.huds[HUD_type]
-		hud.hide_from(eye_owner)
-	if(HUD_trait)
-		REMOVE_TRAIT(eye_owner, HUD_trait, ORGAN_TRAIT)
 	if(HUD_trait_toggle)
 		REMOVE_TRAIT(eye_owner, HUD_trait_toggle, ORGAN_TRAIT)
+	eye_owner.remove_traits(HUD_traits, ORGAN_TRAIT)
 	toggled_on = FALSE
 
 /obj/item/organ/internal/cyberimp/eyes/hud/medical
 	name = "medical HUD implant"
 	desc = "These cybernetic eye implants will display a medical HUD over everything you see."
 	icon_state = "eye_implant_medical"
-	HUD_type = DATA_HUD_MEDICAL_ADVANCED
-	HUD_trait = TRAIT_MEDICAL_HUD
+	HUD_traits = list(TRAIT_MEDICAL_HUD)
 
 /obj/item/organ/internal/cyberimp/eyes/hud/security
 	name = "security HUD implant"
 	desc = "These cybernetic eye implants will display a security HUD over everything you see."
 	icon_state = "eye_implant_security"
-	HUD_type = DATA_HUD_SECURITY_ADVANCED
-	HUD_trait = TRAIT_SECURITY_HUD
+	HUD_traits = list(TRAIT_SECURITY_HUD)
 
 /obj/item/organ/internal/cyberimp/eyes/hud/diagnostic
 	name = "diagnostic HUD implant"
 	desc = "These cybernetic eye implants will display a diagnostic HUD over everything you see."
 	icon_state = "eye_implant_diagnostic"
-	HUD_type = DATA_HUD_DIAGNOSTIC_BASIC
+	HUD_traits = list(TRAIT_DIAGNOSTIC_HUD, TRAIT_BOT_PATH_HUD)
 
 /obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate
 	name = "Contraband Security HUD Implant"

@@ -12,8 +12,8 @@ GLOBAL_ALIST_INIT(huds, alist(
 	DATA_HUD_SECURITY_ADVANCED = new/datum/atom_hud/data/human/security/advanced(),
 	DATA_HUD_MEDICAL_BASIC = new/datum/atom_hud/data/human/medical/basic(),
 	DATA_HUD_MEDICAL_ADVANCED = new/datum/atom_hud/data/human/medical/advanced(),
-	DATA_HUD_DIAGNOSTIC_BASIC = new/datum/atom_hud/data/diagnostic/basic(),
-	DATA_HUD_DIAGNOSTIC_ADVANCED = new/datum/atom_hud/data/diagnostic/advanced(),
+	DATA_HUD_DIAGNOSTIC = new/datum/atom_hud/data/diagnostic(),
+	DATA_HUD_BOT_PATH = new/datum/atom_hud/data/bot_path(),
 	DATA_HUD_ABDUCTOR = new/datum/atom_hud/abductor(),
 	DATA_HUD_AI_DETECT = new/datum/atom_hud/ai_detector(),
 	DATA_HUD_FAN = new/datum/atom_hud/data/human/fan_hud(),
@@ -22,6 +22,13 @@ GLOBAL_ALIST_INIT(huds, alist(
 	DATA_HUD_CREW = new/datum/atom_hud/data/human/crew_hud(), //Monkestation edit, crew hud
 	DATA_HUD_BORER = new/datum/atom_hud/borer(),
 	DATA_HUD_SIMIAN = new/datum/atom_hud/data/human/simian(),
+))
+
+GLOBAL_LIST_INIT(trait_to_hud, list(
+	TRAIT_SECURITY_HUD = DATA_HUD_SECURITY_ADVANCED,
+	TRAIT_MEDICAL_HUD = DATA_HUD_MEDICAL_ADVANCED,
+	TRAIT_DIAGNOSTIC_HUD = DATA_HUD_DIAGNOSTIC,
+	TRAIT_BOT_PATH_HUD = DATA_HUD_BOT_PATH
 ))
 
 /datum/atom_hud

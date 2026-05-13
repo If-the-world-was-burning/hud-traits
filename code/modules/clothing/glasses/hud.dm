@@ -2,30 +2,9 @@
 	name = "HUD"
 	desc = "A heads-up display that provides important info in (almost) real time."
 	flags_1 = null //doesn't protect eyes because it's a monocle, duh
-	var/hud_type = null
-	///Used for topic calls. Just because you have a HUD display doesn't mean you should be able to interact with stuff.
 	var/hud_trait = null
 
 
-/obj/item/clothing/glasses/hud/equipped(mob/living/carbon/human/user, slot)
-	..()
-	if(!(slot & ITEM_SLOT_EYES))
-		return
-	if(hud_type)
-		var/datum/atom_hud/our_hud = GLOB.huds[hud_type]
-		our_hud.show_to(user)
-	if(hud_trait)
-		ADD_TRAIT(user, hud_trait, GLASSES_TRAIT)
-
-/obj/item/clothing/glasses/hud/dropped(mob/living/carbon/human/user)
-	..()
-	if(!istype(user) || user.glasses != src)
-		return
-	if(hud_type)
-		var/datum/atom_hud/our_hud = GLOB.huds[hud_type]
-		our_hud.hide_from(user)
-	if(hud_trait)
-		REMOVE_TRAIT(user, hud_trait, GLASSES_TRAIT)
 
 /obj/item/clothing/glasses/hud/emp_act(severity)
 	. = ..()
@@ -60,8 +39,7 @@
 	name = "health scanner HUD"
 	desc = "A heads-up display that scans the humanoids in view and provides accurate data about their health status."
 	icon_state = "healthhud"
-	hud_type = DATA_HUD_MEDICAL_ADVANCED
-	hud_trait = TRAIT_MEDICAL_HUD
+	hud_trait= TRAIT_MEDICAL_HUD
 	glass_colour_type = /datum/client_colour/glass_colour/lightblue
 
 /obj/item/clothing/glasses/hud/health/night
@@ -97,7 +75,6 @@
 	name = "diagnostic HUD"
 	desc = "A heads-up display capable of analyzing the integrity and status of robotics and exosuits."
 	icon_state = "diagnostichud"
-	hud_type = DATA_HUD_DIAGNOSTIC_BASIC
 	hud_trait = TRAIT_DIAGNOSTIC_HUD
 	glass_colour_type = /datum/client_colour/glass_colour/lightorange
 
@@ -123,7 +100,6 @@
 	name = "security HUD"
 	desc = "A heads-up display that scans the humanoids in view and provides accurate data about their ID status and security records."
 	icon_state = "securityhud"
-	hud_type = DATA_HUD_SECURITY_ADVANCED
 	hud_trait = TRAIT_SECURITY_HUD
 	glass_colour_type = /datum/client_colour/glass_colour/red
 
@@ -241,20 +217,16 @@
 	if (wearer.glasses != src)
 		return
 
-	if (hud_type)
-		var/datum/atom_hud/our_hud = GLOB.huds[hud_type]
-		our_hud.hide_from(user)
+	for(var/trait in hud_trait)
+		REMOVE_CLOTHING_TRAIT(user, trait)
 
-	if (hud_type == DATA_HUD_MEDICAL_ADVANCED)
-		hud_type = null
-	else if (hud_type == DATA_HUD_SECURITY_ADVANCED)
-		hud_type = DATA_HUD_MEDICAL_ADVANCED
+	if (TRAIT_MEDICAL_HUD in hud_trait)
+		hud_trait = null
+	else if (TRAIT_SECURITY_HUD in hud_trait)
+		hud_trait = TRAIT_MEDICAL_HUD
 	else
-		hud_type = DATA_HUD_SECURITY_ADVANCED
+		hud_trait = TRAIT_SECURITY_HUD
 
-	if (hud_type)
-		var/datum/atom_hud/our_hud = GLOB.huds[hud_type]
-		our_hud.show_to(user)
 
 /datum/action/item_action/switch_hud
 	name = "Switch HUD"
@@ -263,10 +235,10 @@
 	name = "thermal HUD scanner"
 	desc = "Thermal imaging HUD in the shape of glasses."
 	icon_state = "thermal"
-	hud_type = DATA_HUD_SECURITY_ADVANCED
 	vision_flags = SEE_MOBS
 	color_cutoffs = list(25, 8, 5)
 	glass_colour_type = /datum/client_colour/glass_colour/red
+	hud_trait = TRAIT_SECURITY_HUD
 
 /obj/item/clothing/glasses/hud/toggle/thermal/attack_self(mob/user)
 	..()
