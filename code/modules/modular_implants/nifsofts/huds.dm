@@ -99,19 +99,16 @@
 /datum/nifsoft/hud/job/medical
 	name = "Medical Scrying Lens"
 	ui_icon = "staff-snake"
-	hud_type = DATA_HUD_MEDICAL_ADVANCED
 	hud_traits = list(TRAIT_MEDICAL_HUD)
 
 /datum/nifsoft/hud/job/diagnostic
 	name = "Diagnostic Scrying Lens"
 	ui_icon = "robot"
-	hud_type = DATA_HUD_DIAGNOSTIC_BASIC
 	hud_traits = list(TRAIT_DIAGNOSTIC_HUD)
 
 /datum/nifsoft/hud/job/security
 	name = "Security Scrying Lens"
 	ui_icon = "shield"
-	hud_type = DATA_HUD_SECURITY_ADVANCED
 	hud_traits = list(TRAIT_SECURITY_HUD)
 
 /datum/nifsoft/hud/job/cargo_tech

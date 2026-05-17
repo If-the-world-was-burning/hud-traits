@@ -15,7 +15,7 @@
 	)
 	actions_types = null
 	var/static/list/huds_shown = list(
-		DATA_HUD_DIAGNOSTIC_BASIC,
+		DATA_HUD_DIAGNOSTIC,
 		DATA_HUD_SECURITY_BASIC,
 		DATA_HUD_MEDICAL_ADVANCED,
 	)

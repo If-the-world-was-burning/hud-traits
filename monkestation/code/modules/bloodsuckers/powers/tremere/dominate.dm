@@ -31,7 +31,7 @@
 	blind_at_level = 3
 	blocked_by_glasses = FALSE
 	/// Data huds to show while the power is active
-	var/list/datahuds = list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED)
+	var/list/datahuds = list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC, DATA_HUD_BOT_PATH)
 	/// assoc list of timer_id to vassal datum
 	var/list/vassals = list()
 	var/vassal_creation_time = 6 SECONDS
